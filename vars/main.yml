@@ -1,3 +1,2 @@
-#SPDX-License-Identifier: MIT-0
 ---
-# vars file for ansible-role-rhel10-cis_server_l1
+# defaults file for rhel10_cis_server_l1
