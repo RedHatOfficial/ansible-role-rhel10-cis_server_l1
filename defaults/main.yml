@@ -16,9 +16,9 @@ var_password_pam_maxrepeat: '3'
 var_password_pam_maxsequence: '3'
 var_password_pam_minclass: '4'
 var_password_pam_minlen: '14'
-var_password_hashing_algorithm_pam: yescrypt
-var_password_hashing_algorithm: YESCRYPT
-var_account_disable_post_pw_expiration: '30'
+var_password_hashing_algorithm: YESCRYPT|SHA512
+var_password_hashing_algorithm_pam: yescrypt|sha512
+var_account_disable_post_pw_expiration: '45'
 var_accounts_maximum_age_login_defs: '365'
 var_accounts_password_warn_age_login_defs: '7'
 var_pam_wheel_group_for_su: sugroup
@@ -58,7 +58,6 @@ var_sshd_set_login_grace_time: '60'
 sshd_max_auth_tries_value: '4'
 var_sshd_max_sessions: '10'
 var_sshd_set_maxstartups: 10:30:60
-sshd_strong_kex: -diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
 account_disable_post_pw_expiration: true
 account_password_pam_faillock_password_auth: true
 account_password_pam_faillock_system_auth: true
@@ -71,6 +70,7 @@ accounts_password_pam_maxrepeat: true
 accounts_password_pam_maxsequence: true
 accounts_password_pam_minclass: true
 accounts_password_pam_minlen: true
+accounts_password_pam_modules_in_authselect_profile: true
 accounts_password_pam_pwhistory_enforce_for_root: true
 accounts_password_pam_pwhistory_remember_password_auth: true
 accounts_password_pam_pwhistory_remember_system_auth: true
@@ -78,11 +78,12 @@ accounts_password_pam_pwhistory_use_authtok: true
 accounts_password_pam_pwquality_password_auth: true
 accounts_password_pam_pwquality_system_auth: true
 accounts_password_pam_unix_authtok: true
+accounts_password_pam_unix_no_remember: true
 accounts_password_set_max_life_existing: true
 accounts_password_set_warn_age_existing: true
 accounts_password_warn_age_login_defs: true
 accounts_passwords_pam_faillock_deny: true
-accounts_passwords_pam_faillock_unlock_time: true
+accounts_passwords_pam_faillock_unlock_time_with_zero: true
 accounts_root_path_dirs_no_write: true
 accounts_set_post_pw_existing: true
 accounts_tmout: true
@@ -90,7 +91,6 @@ accounts_umask_etc_bashrc: true
 accounts_umask_etc_login_defs: true
 accounts_umask_etc_profile: true
 accounts_user_dot_group_ownership: true
-accounts_user_dot_no_world_writable_programs: true
 accounts_user_dot_user_ownership: true
 accounts_user_interactive_home_directory_exists: true
 aide_build_database: true
@@ -135,6 +135,7 @@ file_groupowner_backup_etc_group: true
 file_groupowner_backup_etc_gshadow: true
 file_groupowner_backup_etc_passwd: true
 file_groupowner_backup_etc_shadow: true
+file_groupowner_boot_grub2: true
 file_groupowner_cron_allow: true
 file_groupowner_cron_d: true
 file_groupowner_cron_daily: true
@@ -153,10 +154,8 @@ file_groupowner_etc_security_opasswd: true
 file_groupowner_etc_security_opasswd_old: true
 file_groupowner_etc_shadow: true
 file_groupowner_etc_shells: true
-file_groupowner_grub2_cfg: true
 file_groupowner_sshd_config: true
 file_groupowner_sshd_drop_in_config: true
-file_groupowner_user_cfg: true
 file_groupownership_sshd_private_key: true
 file_groupownership_sshd_pub_key: true
 file_owner_at_allow: true
@@ -164,6 +163,7 @@ file_owner_backup_etc_group: true
 file_owner_backup_etc_gshadow: true
 file_owner_backup_etc_passwd: true
 file_owner_backup_etc_shadow: true
+file_owner_boot_grub2: true
 file_owner_cron_allow: true
 file_owner_cron_d: true
 file_owner_cron_daily: true
@@ -182,10 +182,8 @@ file_owner_etc_security_opasswd: true
 file_owner_etc_security_opasswd_old: true
 file_owner_etc_shadow: true
 file_owner_etc_shells: true
-file_owner_grub2_cfg: true
 file_owner_sshd_config: true
 file_owner_sshd_drop_in_config: true
-file_owner_user_cfg: true
 file_ownership_home_directories: true
 file_ownership_sshd_private_key: true
 file_ownership_sshd_pub_key: true
@@ -196,6 +194,7 @@ file_permissions_backup_etc_group: true
 file_permissions_backup_etc_gshadow: true
 file_permissions_backup_etc_passwd: true
 file_permissions_backup_etc_shadow: true
+file_permissions_boot_grub2: true
 file_permissions_cron_allow: true
 file_permissions_cron_d: true
 file_permissions_cron_daily: true
@@ -214,13 +213,11 @@ file_permissions_etc_security_opasswd: true
 file_permissions_etc_security_opasswd_old: true
 file_permissions_etc_shadow: true
 file_permissions_etc_shells: true
-file_permissions_grub2_cfg: true
 file_permissions_home_directories: true
 file_permissions_sshd_config: true
 file_permissions_sshd_drop_in_config: true
 file_permissions_sshd_private_key: true
 file_permissions_sshd_pub_key: true
-file_permissions_user_cfg: true
 firewalld_loopback_traffic_trusted: true
 grub2_enable_selinux: true
 high_disruption: true
@@ -272,7 +269,6 @@ package_aide_installed: true
 package_bind_removed: true
 package_cron_installed: true
 package_cyrus_imapd_removed: true
-package_dnsmasq_removed: true
 package_dovecot_removed: true
 package_firewalld_installed: true
 package_ftp_removed: true
@@ -307,12 +303,12 @@ service_avahi_daemon_disabled: true
 service_bluetooth_disabled: true
 service_crond_enabled: true
 service_cups_disabled: true
+service_dnsmasq_disabled: true
 service_firewalld_enabled: true
 service_nfs_disabled: true
 service_rpcbind_disabled: true
 service_systemd_journal_upload_enabled: true
 service_systemd_journald_enabled: true
-set_password_hashing_algorithm_libuserconf: true
 set_password_hashing_algorithm_logindefs: true
 set_password_hashing_algorithm_passwordauth: true
 set_password_hashing_algorithm_systemauth: true
@@ -330,7 +326,6 @@ sshd_set_loglevel_verbose: true
 sshd_set_max_auth_tries: true
 sshd_set_max_sessions: true
 sshd_set_maxstartups: true
-sshd_use_strong_kex: true
 sudo_add_use_pty: true
 sudo_custom_logfile: true
 sudo_remove_no_authenticate: true
